@@ -53,7 +53,7 @@ header h1 {
     text-align: center;
 }
 #cargando img {
-    display: none;
+    display: none; 
     margin: 0 auto;
 }
 #resultado  {

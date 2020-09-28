@@ -7,9 +7,31 @@ function Seguro(marca, anio, seguro) {
 // Relacionado con la interfaz grafica que se va a mostrar
 function Interfaz() {};
 
+Interfaz.prototype.mostarError = function(mensaje, tipo) {
+    const div = document.createElement("div");
+    if(tipo == "error"){
+        div.classList = "error";
+        div.innerText = mensaje;
+
+        resultado.appendChild(div);
+        
+        //eliminar Div despues de 3 segundos
+        setTimeout(function() {div.remove()}, 3000);
+    } else{
+        const loading = document.querySelector("#cargando img");
+        
+        //mostrar spinner
+        loading.style.setProperty("display", "block");
+        
+        //quitar spinner
+        //setTimeout(function() {loading.style.setProperty("display", "none"), 3000});
+    }
+}
+
 // Event Listener y recopilacion de datos
 
 const formulario = document.querySelector("#cotizar-seguro");
+const resultado = document.getElementById("resultado");
 
 formulario.addEventListener("submit", function(e){
     e.preventDefault();
@@ -25,9 +47,17 @@ formulario.addEventListener("submit", function(e){
     // leer el tipo de seguro
     const tipo = document.querySelector('input[name="tipo"]:checked').value;
 
-    const newCar = new Seguro(marcaSeleccionada, anioSeleccionado, tipo);
+    const interfaz = new Interfaz();
 
-    console.log(newCar);
+    // comprobar que se seleccionan elementos
+    if(marcaSeleccionada == "" || anioSeleccionado == "" || tipo == ""){
+        interfaz.mostarError("Hay un error en los campos enviados, intente nuevamente", "error");
+    } else {
+        const newCar = new Seguro(marcaSeleccionada, anioSeleccionado, tipo);
+        interfaz.mostarError("mensaje", "hola");
+        console.log(newCar);
+    }
+    
 })
 
 // Crear fechas del año
