@@ -13,7 +13,7 @@ Interfaz.prototype.mostarError = function(mensaje, tipo) {
         div.classList = "error";
         div.innerText = mensaje;
 
-        resultado.appendChild(div);
+        formulario.insertBefore(div,preInsert);
         
         //eliminar Div despues de 3 segundos
         setTimeout(function() {div.remove()}, 3000);
@@ -21,7 +21,7 @@ Interfaz.prototype.mostarError = function(mensaje, tipo) {
         div.classList = "correcto";
         div.innerText = mensaje;
 
-        resultado.appendChild(div);
+        formulario.insertBefore(div,preInsert);
 
         //eliminar Div despues de 3 segundos
         setTimeout(function() {div.remove()}, 2500);
@@ -29,16 +29,37 @@ Interfaz.prototype.mostarError = function(mensaje, tipo) {
     }
 }
 
-Interfaz.prototype.mostarCoste = function(coste){
+Interfaz.prototype.mostarCoste = function(coste, marca, anio, tipo){
     const div = document.createElement("div");
     div.classList = "resultado";
     
+    //header
     const p = document.createElement("p");
     p.classList = "header";
+    p.innerText = 'TU RESUMEN: ';
 
-    p.innerText = 'El coste de tu seguro es de: $' + coste;
+    //marca
+    const marcas = document.createElement("p");
+    marcas.innerText = "Marca: " + marca;
+    
+    // año
+    const anios = document.createElement("p");
+    anios.innerText = "Año: " + anio;
 
+    // tipo
+    const tipos = document.createElement("p");
+    tipos.innerText = "Tipo de seguro: " + tipo;
+
+    //costos
+    const costes = document.createElement("p");
+    costes.innerText = "Coste del Seguro: $" + coste;
+
+    // Agregar todo al HTML
     div.appendChild(p);
+    div.appendChild(marcas);
+    div.appendChild(anios);
+    div.appendChild(tipos);
+    div.appendChild(costes);
     resultado.appendChild(div);
     setTimeout(function() {div.remove()}, 4000);
 }
@@ -47,6 +68,8 @@ Interfaz.prototype.mostarCoste = function(coste){
 
 const formulario = document.querySelector("#cotizar-seguro");
 const resultado = document.getElementById("resultado");
+const preInsert = document.querySelector(".form-group");
+
 
 formulario.addEventListener("submit", function(e){
     e.preventDefault();
@@ -69,7 +92,7 @@ formulario.addEventListener("submit", function(e){
         interfaz.mostarError("Hay un error en los campos enviados, intente nuevamente", "error");
     } else {
         const newCar = new Seguro(marcaSeleccionada, anioSeleccionado, tipo);
-        interfaz.mostarError("Datos ingresados correctamente. Calculando su seguro!", "correcto");
+        interfaz.mostarError("Procesando...", "correcto");
         const loading = document.querySelector("#cargando");
         const loadingImg = document.createElement("img");
         
@@ -110,13 +133,27 @@ function costoDeSeguro(datosAuto, interfazVisual) {
         valorTipoSeguro = 10 / 100;
     }
 
+    //pasar de numeros a marcas Strings
+    let marcas;
+    if(marca == 1){
+        marcas = "Americano";
+    }
+    else if(marca == 2){
+        marcas = "Asiatico";
+    }
+    else{
+        marcas = "Europeo";
+    }
+
+
+
     // Calculando el valor con los datos dados
     let valorSeguro;
     valorSeguro = calculadoraSeguro(valorAuto, valorAnio, valorTipoSeguro);
 
     // mostrar visualmente el coste
     let interfaz = interfazVisual;
-    interfaz.mostarCoste(valorSeguro);
+    interfaz.mostarCoste(valorSeguro, marcas, anio, tipo);
 }
 
 // Funcion que da el valor del auto
