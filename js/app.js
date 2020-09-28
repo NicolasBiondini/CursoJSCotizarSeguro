@@ -29,6 +29,20 @@ Interfaz.prototype.mostarError = function(mensaje, tipo) {
     }
 }
 
+Interfaz.prototype.mostarCoste = function(coste){
+    const div = document.createElement("div");
+    div.classList = "resultado";
+    
+    const p = document.createElement("p");
+    p.classList = "header";
+
+    p.innerText = 'El coste de tu seguro es de: $' + coste;
+
+    div.appendChild(p);
+    resultado.appendChild(div);
+    setTimeout(function() {div.remove()}, 4000);
+}
+
 // Event Listener y recopilacion de datos
 
 const formulario = document.querySelector("#cotizar-seguro");
@@ -100,9 +114,9 @@ function costoDeSeguro(datosAuto, interfazVisual) {
     let valorSeguro;
     valorSeguro = calculadoraSeguro(valorAuto, valorAnio, valorTipoSeguro);
 
-
-
-    console.log(valorSeguro);
+    // mostrar visualmente el coste
+    let interfaz = interfazVisual;
+    interfaz.mostarCoste(valorSeguro);
 }
 
 // Funcion que da el valor del auto
