@@ -18,16 +18,14 @@ Interfaz.prototype.mostarError = function(mensaje, tipo) {
         //eliminar Div despues de 3 segundos
         setTimeout(function() {div.remove()}, 3000);
     } else{
-        const loading = document.querySelector("#cargando");
-        const loadingImg = document.createElement("img");
-        loadingImg.setAttribute("src", "img/spinner.gif");
-        loading.appendChild(loadingImg);
-                
-        //quitar spinner
-        setTimeout(function() {loadingImg.remove()}, 2500);
+        div.classList = "correcto";
+        div.innerText = mensaje;
 
-        //entra la tarjeta costo de seguro
-        setTimeout(function() {costoDeSeguro()}, 2500);
+        resultado.appendChild(div);
+
+        //eliminar Div despues de 3 segundos
+        setTimeout(function() {div.remove()}, 2500);
+        
     }
 }
 
@@ -57,15 +55,33 @@ formulario.addEventListener("submit", function(e){
         interfaz.mostarError("Hay un error en los campos enviados, intente nuevamente", "error");
     } else {
         const newCar = new Seguro(marcaSeleccionada, anioSeleccionado, tipo);
-        interfaz.mostarError("mensaje", "hola");
-        console.log(newCar);
+        interfaz.mostarError("Datos ingresados correctamente. Calculando su seguro!", "correcto");
+        const loading = document.querySelector("#cargando");
+        const loadingImg = document.createElement("img");
+        
+        //crear spinner
+
+        loadingImg.setAttribute("src", "img/spinner.gif");
+        loading.appendChild(loadingImg);
+                
+        //quitar spinner
+        setTimeout(function() {loadingImg.remove()}, 2500);
+
+        //entra la tarjeta costo de seguro
+        setTimeout(function() {costoDeSeguro(newCar, interfaz)}, 2500);
     }
     
 })
 
 //Funcion que calcula costo del seguro y se ejecuta. 
-function costoDeSeguro() {
-    console.log("HOLAAAAAAAAAAAAAA");
+function costoDeSeguro(datosAuto, interfazVisual) {
+    
+    let marca = datosAuto.marca;
+    let anio = datosAuto.anio;
+    let tipo = datosAuto.seguro;
+
+
+    console.log(marca, anio, tipo, interfazVisual);
 }
 
 // Crear fechas del año
