@@ -18,13 +18,16 @@ Interfaz.prototype.mostarError = function(mensaje, tipo) {
         //eliminar Div despues de 3 segundos
         setTimeout(function() {div.remove()}, 3000);
     } else{
-        const loading = document.querySelector("#cargando img");
-        
-        //mostrar spinner
-        loading.style.setProperty("display", "block");
-        
+        const loading = document.querySelector("#cargando");
+        const loadingImg = document.createElement("img");
+        loadingImg.setAttribute("src", "img/spinner.gif");
+        loading.appendChild(loadingImg);
+                
         //quitar spinner
-        //setTimeout(function() {loading.style.setProperty("display", "none"), 3000});
+        setTimeout(function() {loadingImg.remove()}, 2500);
+
+        //entra la tarjeta costo de seguro
+        setTimeout(function() {costoDeSeguro()}, 2500);
     }
 }
 
@@ -59,6 +62,11 @@ formulario.addEventListener("submit", function(e){
     }
     
 })
+
+//Funcion que calcula costo del seguro y se ejecuta. 
+function costoDeSeguro() {
+    console.log("HOLAAAAAAAAAAAAAA");
+}
 
 // Crear fechas del año
 const max = new Date().getFullYear();
