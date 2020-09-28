@@ -77,11 +77,67 @@ formulario.addEventListener("submit", function(e){
 function costoDeSeguro(datosAuto, interfazVisual) {
     
     let marca = datosAuto.marca;
-    let anio = datosAuto.anio;
+    let anio = Number(datosAuto.anio);
     let tipo = datosAuto.seguro;
 
+    // variable correspondiente al valor del auto
+    let valorAuto;
+    valorAuto = valorDelAuto(marca);
 
-    console.log(marca, anio, tipo, interfazVisual);
+    // variable correspondiente a la cantidad de años
+    let valorAnio;
+    valorAnio = polizaDelAño(anio);
+
+    //variable correspondiente al tipo de seguro
+    let valorTipoSeguro;
+    if(tipo == "basico"){
+        valorTipoSeguro = 4.5 / 100;
+    } else {
+        valorTipoSeguro = 10 / 100;
+    }
+
+    // Calculando el valor con los datos dados
+    let valorSeguro;
+    valorSeguro = calculadoraSeguro(valorAuto, valorAnio, valorTipoSeguro);
+
+
+
+    console.log(valorSeguro);
+}
+
+// Funcion que da el valor del auto
+function valorDelAuto(marca) {
+    if (marca == 1) {
+        return 15000;
+    }
+    else if (marca == 2) {
+        return 12500;
+    }
+    else if (marca == 3) {
+        return 20000;
+    }
+}
+
+// Funcion Poliza del año
+function polizaDelAño(anio) {
+    let anios = 0;
+    for(let i = anio; i < max; i++ )
+    {
+        anios = anios + 1;
+    }
+    return anios;
+}
+
+// Funcion calculadora de seguro
+
+function calculadoraSeguro(valorAuto, cantidadAnios, tipo) {
+    let valor = valorAuto;
+    for(let i = cantidadAnios; i > 0; i--) {
+        valor = valor - (valorAuto *3 / 100);
+    }
+    valor = valor * tipo;
+    return valor;
+
 }
 
 // Crear fechas del año
